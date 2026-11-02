@@ -1,0 +1,31 @@
+{% load kt %}
+<article class="plan-card">
+  <div class="plan-cover">
+    <img src="{{ plan.cover_url }}" alt="{{ plan.title }}">
+    <span class="badge badge-{{ plan.status|tone }} absolute start-3 top-3">{{ plan.get_status_display }}</span>
+    {% if plan.is_featured %}<span class="badge badge-accent absolute end-3 top-3">منتخب</span>{% endif %}
+  </div>
+  <div class="flex flex-1 flex-col p-5">
+    <h3 class="text-lg">{{ plan.title }}</h3>
+    {% if show_details is False %}
+      <p class="mt-3 flex-1 text-sm leading-7 text-mute">نرخ سود، مدت و میزان جذب فقط پس از ورود به حساب نمایش داده می‌شود.</p>
+    {% else %}
+      <p class="mt-1 text-xs text-mute">{{ plan.code }} · {{ plan.get_risk_level_display }}</p>
+      <p class="mt-2 line-clamp-3 flex-1 text-sm leading-7 text-ink2">{{ plan.summary }}</p>
+      <div class="mt-4 grid grid-cols-3 gap-2 text-center">
+        <div><div class="text-[11px] text-mute">سود ماهانه</div><div class="font-extrabold">{{ plan.rate_percent|percent }}</div></div>
+        <div><div class="text-[11px] text-mute">مدت</div><div class="font-extrabold">{{ plan.duration_months|fanum }} ماه</div></div>
+        <div><div class="text-[11px] text-mute">حداقل</div><div class="font-extrabold">{{ plan.min_investment|toman_short }}</div></div>
+      </div>
+      <div class="bar" aria-hidden="true"><i style="width: {{ plan.funding_percent }}%"></i></div>
+      <div class="mt-1.5 flex justify-between text-[11px] text-mute">
+        <span>تأمین {{ plan.funding_percent|percent }}</span>
+        <span>{{ plan.raised_amount|toman_short }} از {{ plan.target_amount|toman_short }}</span>
+      </div>
+    {% endif %}
+  </div>
+  <div class="flex items-center justify-between border-t border-line2 px-5 py-3">
+    <span class="text-xs text-mute">{% if show_details is not False %}{{ plan.investors_count|fanum }} سرمایه‌گذار{% endif %}</span>
+    <a class="btn btn-sm" href="{% url 'plan' plan.slug %}">مشاهده طرح</a>
+  </div>
+</article>

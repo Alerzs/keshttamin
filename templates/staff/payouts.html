@@ -1,0 +1,24 @@
+{% extends 'base_panel.html' %}
+{% load kt %}
+{% block heading %}تقویم و پرداخت سود{% endblock %}
+{% block content %}
+<div class="mb-4"><a class="btn btn-sm btn-ghost" href="?f=due">فقط سررسیدشده‌های پرداخت‌نشده</a></div>
+<div class="card overflow-x-auto">
+  <table class="tbl">
+    <thead><tr><th>تاریخ</th><th>قرارداد</th><th>سرمایه‌گذار</th><th>نوع</th><th>مبلغ</th><th>وضعیت</th><th></th></tr></thead>
+    <tbody>
+      {% for row in payouts %}
+      <tr>
+        <td>{{ row.due_date|jdate }}</td>
+        <td>{{ row.investment.contract_no }}</td>
+        <td>{{ row.user.full_name }}</td>
+        <td>{{ row.get_kind_display }}</td>
+        <td>{{ row.amount|toman }}</td>
+        <td><span class="badge badge-{{ row.status|tone }}">{{ row.get_status_display }}</span></td>
+        <td>{% if row.status != 'paid' %}<form method="post" action="{% url 'staff_payout_paid' row.pk %}">{% csrf_token %}<button class="btn btn-sm" type="submit">ثبت واریز</button></form>{% endif %}</td>
+      </tr>
+      {% empty %}<tr><td colspan="7">ردیفی نیست.</td></tr>{% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

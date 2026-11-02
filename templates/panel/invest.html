@@ -1,0 +1,28 @@
+{% extends 'base_panel.html' %}
+{% load kt %}
+{% block heading %}ثبت مشارکت{% endblock %}
+{% block content %}
+<div class="grid items-start gap-5 lg:grid-cols-[1fr_320px]">
+  <div class="card card-p">
+    <p class="text-sm text-mute">{{ plan.code }}</p>
+    <h2 class="text-2xl">{{ plan.title }}</h2>
+    <p class="mt-2 text-sm text-ink2">سود ماهانه {{ plan.rate_percent|percent }} · {{ plan.duration_months|fanum }} ماه · حداقل {{ plan.min_investment|toman }}</p>
+    <form class="mt-5" method="post">
+      {% csrf_token %}
+      <div class="field"><label>مبلغ مشارکت ({{ site.currency_label }})</label><input name="amount" data-money inputmode="numeric" value="{{ plan.min_investment|toman }}">{{ form.amount.errors }}</div>
+      <div class="field"><label>توضیح برای کارشناس</label><textarea name="note" rows="4"></textarea></div>
+      <button class="btn" type="submit">ثبت درخواست</button>
+    </form>
+  </div>
+  {% if bank_accounts %}
+  <aside class="card card-p">
+    <h3 class="mb-2 text-base">حساب مقصد واریز</h3>
+    {% for acc in bank_accounts %}
+    <p class="text-sm"><b>{{ acc.title }}</b><br>{{ acc.bank_name }} · {{ acc.owner_name }}</p>
+    <p class="mt-1 text-sm" dir="ltr">{{ acc.iban }}</p>
+    {% if acc.note %}<p class="hint">{{ acc.note }}</p>{% endif %}
+    {% endfor %}
+  </aside>
+  {% endif %}
+</div>
+{% endblock %}

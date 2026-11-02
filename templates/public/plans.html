@@ -1,0 +1,29 @@
+{% extends 'base_public.html' %}
+{% load kt %}
+{% block title %}فرصت‌های سرمایه‌گذاری | {{ site.site_name }}{% endblock %}
+{% block content %}
+<section class="border-b border-line bg-cream2 py-12">
+  <div class="wrap">
+    <span class="eyebrow">طرح‌ها</span>
+    <h1 class="text-3xl">فرصت‌های سرمایه‌گذاری</h1>
+    <p class="lead">فقط طرح‌هایی که برای جذب یا اجرا منتشر شده‌اند.</p>
+    <div class="mt-4 flex flex-wrap gap-2">
+      <a class="btn btn-sm {% if not status %}{% else %}btn-ghost{% endif %}" href="{% url 'plans' %}">همه</a>
+      <a class="btn btn-sm {% if status != 'open' %}btn-ghost{% endif %}" href="?status=open">در حال جذب</a>
+      <a class="btn btn-sm {% if status != 'active' %}btn-ghost{% endif %}" href="?status=active">در حال اجرا</a>
+      <a class="btn btn-sm {% if status != 'funded' %}btn-ghost{% endif %}" href="?status=funded">تأمین شد</a>
+    </div>
+  </div>
+</section>
+<section class="py-12">
+  <div class="wrap">
+    {% if plans %}
+    <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+      {% for plan in plans %}{% include 'partials/plan_card.html' %}{% endfor %}
+    </div>
+    {% else %}
+    <div class="card card-p text-center"><h3>طرحی با این وضعیت نیست</h3></div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

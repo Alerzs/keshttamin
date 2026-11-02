@@ -1,0 +1,33 @@
+{% extends 'base_panel.html' %}
+{% load kt %}
+{% block heading %}سرمایه‌گذاری‌ها{% endblock %}
+{% block content %}
+<form class="mb-4 flex flex-wrap gap-2" method="get">
+  <input class="max-w-xs" name="q" value="{{ q }}" placeholder="نام، موبایل یا شماره قرارداد">
+  <select class="max-w-[180px]" name="status" onchange="this.form.submit()">
+    <option value="">همه وضعیت‌ها</option>
+    <option value="pending" {% if status == 'pending' %}selected{% endif %}>در انتظار</option>
+    <option value="approved" {% if status == 'approved' %}selected{% endif %}>تأیید شده</option>
+    <option value="active" {% if status == 'active' %}selected{% endif %}>در حال اجرا</option>
+    <option value="settled" {% if status == 'settled' %}selected{% endif %}>تسویه</option>
+    <option value="rejected" {% if status == 'rejected' %}selected{% endif %}>رد شده</option>
+  </select>
+  <button class="btn btn-sm" type="submit">جست‌وجو</button>
+</form>
+<div class="card overflow-x-auto">
+  <table class="tbl">
+    <thead><tr><th>قرارداد</th><th>سرمایه‌گذار</th><th>طرح</th><th>مبلغ</th><th>وضعیت</th></tr></thead>
+    <tbody>
+      {% for inv in investments %}
+      <tr>
+        <td><a class="link" href="{% url 'staff_investment' inv.pk %}">{{ inv.contract_no }}</a></td>
+        <td>{{ inv.user.full_name }}<div class="text-xs text-mute" dir="ltr">{{ inv.user.mobile }}</div></td>
+        <td>{{ inv.plan.title }}</td>
+        <td>{{ inv.amount|toman }}</td>
+        <td><span class="badge badge-{{ inv.status|tone }}">{{ inv.get_status_display }}</span></td>
+      </tr>
+      {% empty %}<tr><td colspan="5">موردی نیست.</td></tr>{% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

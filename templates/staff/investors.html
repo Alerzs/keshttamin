@@ -1,0 +1,22 @@
+{% extends 'base_panel.html' %}
+{% load kt %}
+{% block heading %}سرمایه‌گذاران{% endblock %}
+{% block content %}
+<form class="mb-4" method="get"><input class="max-w-sm" name="q" value="{{ q }}" placeholder="نام، موبایل یا کد ملی"> <button class="btn btn-sm" type="submit">جست‌وجو</button></form>
+<div class="card overflow-x-auto">
+  <table class="tbl">
+    <thead><tr><th>نام</th><th>موبایل</th><th>شهر</th><th>شبا</th><th>وضعیت</th></tr></thead>
+    <tbody>
+      {% for person in investors %}
+      <tr>
+        <td>{{ person.full_name }}</td>
+        <td dir="ltr">{{ person.mobile }}</td>
+        <td>{{ person.city|default:"—" }}</td>
+        <td dir="ltr">{{ person.iban|default:"—" }}</td>
+        <td>{{ person.get_status_display }}</td>
+      </tr>
+      {% empty %}<tr><td colspan="5">کسی پیدا نشد.</td></tr>{% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

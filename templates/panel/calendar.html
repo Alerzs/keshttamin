@@ -1,0 +1,32 @@
+{% extends 'base_panel.html' %}
+{% load kt %}
+{% block heading %}سود و پرداخت‌ها{% endblock %}
+{% block content %}
+<div class="mb-4 flex gap-2">
+  <a class="btn btn-sm {% if filt %}btn-ghost{% endif %}" href="{% url 'panel_calendar' %}">همه</a>
+  <a class="btn btn-sm {% if filt != 'awaiting' %}btn-ghost{% endif %}" href="?f=awaiting">منتظر تأیید من</a>
+  <a class="btn btn-sm {% if filt != 'paid' %}btn-ghost{% endif %}" href="?f=paid">واریز شده</a>
+</div>
+<div class="card overflow-x-auto">
+  <table class="tbl">
+    <thead><tr><th>تاریخ</th><th>قرارداد</th><th>طرح</th><th>نوع</th><th>مبلغ</th><th>وضعیت</th><th></th></tr></thead>
+    <tbody>
+      {% for row in payouts %}
+      <tr>
+        <td>{{ row.due_date|jdate }}</td>
+        <td><a class="link" href="{% url 'panel_investment' row.investment_id %}">{{ row.investment.contract_no }}</a></td>
+        <td>{{ row.plan.title }}</td>
+        <td>{{ row.get_kind_display }}</td>
+        <td>{{ row.amount|toman }}</td>
+        <td><span class="badge badge-{{ row.confirm_status|tone }}">{{ row.get_confirm_status_display }}</span></td>
+        <td>
+          {% if row.confirm_status == 'awaiting' %}
+          <form method="post" action="{% url 'panel_confirm' row.pk %}">{% csrf_token %}<button class="btn btn-sm" type="submit">دریافت کردم</button></form>
+          {% endif %}
+        </td>
+      </tr>
+      {% empty %}<tr><td colspan="7">ردیفی نیست.</td></tr>{% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

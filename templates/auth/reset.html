@@ -1,0 +1,12 @@
+{% extends 'base_auth.html' %}
+{% block title %}رمز جدید | {{ site.site_name }}{% endblock %}
+{% block content %}
+<h1 class="text-2xl">رمز عبور جدید</h1>
+<form class="mt-5" method="post">
+  {% csrf_token %}
+  {% for field in form %}
+  <div class="field"><label>{{ field.label }}</label>{{ field }}{{ field.errors }}</div>
+  {% endfor %}
+  <button class="btn btn-block" type="submit">ذخیره رمز</button>
+</form>
+{% endblock %}

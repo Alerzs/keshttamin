@@ -1,0 +1,194 @@
+{% extends 'base_public.html' %}
+{% load kt %}
+{% block content %}
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="wrap relative grid items-center gap-10 py-16 lg:grid-cols-2 lg:py-20">
+    <div>
+      <span class="eyebrow">تأمین سرمایه در گردش — نوار تیپ آبیاری</span>
+      <h1>سرمایه شما،<em>نوار تیپ روی زمین کشاورز</em></h1>
+      <p class="lead">ما نوار تیپ را از تولیدکننده می‌خریم و به شبکه فروشگاه‌داران و کشاورزان می‌رسانیم. نیمی از هر معامله نقدی است و نیم دیگر با چک مدت‌دار. سرمایه شما همین فاصله را پر می‌کند و در پایان دوره، سود و اصل آن با تاریخ مشخص بازمی‌گردد.</p>
+      <div class="mb-6 flex flex-wrap gap-3">
+        <a class="btn btn-light btn-lg" href="{% url 'plans' %}">مشاهده فرصت‌ها</a>
+        <a class="btn btn-ghost btn-lg !border-white/30 !bg-transparent !text-cream hover:!bg-white/10" href="#request">درخواست مشاوره</a>
+      </div>
+      <div class="flex flex-wrap gap-x-5 gap-y-2 text-[13px] text-[#c3ccc4]">
+        <span>سود {{ rate|fanum }} درصد در ماه</span>
+        <span>تاریخ واریز از پیش مشخص</span>
+        <span>گزارش دوره‌ای و اسناد</span>
+        <span>پشتوانه اسنادی معاملات</span>
+      </div>
+    </div>
+    <div class="hero-panel" data-calc data-rate="{{ rate }}">
+      <h4 class="mb-4 flex items-center justify-between text-sm text-cream">برآورد سود سرمایه‌گذاری <span class="rounded-full bg-white/10 px-2.5 py-0.5 text-[11px] font-semibold text-[#b8c2ba]">محاسبه لحظه‌ای</span></h4>
+      <div class="field">
+        <label for="calcAmount">مبلغ سرمایه‌گذاری ({{ site.currency_label }})</label>
+        <input id="calcAmount" data-c-amount data-money value="{{ site.min_investment|toman }}" inputmode="numeric" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="calcMonths">مدت دوره</label>
+        <select id="calcMonths" data-c-months>
+          <option value="3">۳ ماه</option>
+          <option value="4">۴ ماه</option>
+          <option value="6" {% if months == 6 %}selected{% endif %}>۶ ماه</option>
+          <option value="9">۹ ماه</option>
+          <option value="12">۱۲ ماه</option>
+          <option value="18">۱۸ ماه</option>
+          <option value="24">۲۴ ماه</option>
+        </select>
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <div class="rounded-xl bg-white/5 p-3"><div class="text-[11px] text-[#a8b2aa]">سود هر ماه</div><div class="font-extrabold" data-c-monthly>—</div></div>
+        <div class="rounded-xl bg-white/5 p-3"><div class="text-[11px] text-[#a8b2aa]">تاریخ واریز یکجا</div><div class="font-extrabold" data-c-maturity>—</div></div>
+        <div class="rounded-xl bg-gold/20 p-3"><div class="text-[11px] text-[#e6d6b4]">مجموع سود دوره</div><div class="font-extrabold" data-c-total>—</div></div>
+        <div class="rounded-xl bg-gold/20 p-3"><div class="text-[11px] text-[#e6d6b4]">بازگشت کل</div><div class="font-extrabold" data-c-return>—</div></div>
+      </div>
+      <p class="mt-3 text-[11px] leading-6 text-[#a8b2aa]">سود ساده روی اصل سرمایه است. عدد نهایی هر طرح در صفحه همان طرح و در قرارداد ثبت می‌شود.</p>
+    </div>
+  </div>
+</section>
+
+<section class="py-16">
+  <div class="wrap">
+    <div class="mb-8 max-w-2xl">
+      <span class="eyebrow">مدل کسب‌وکار</span>
+      <h2 class="text-3xl">پول کجا می‌رود و از کجا برمی‌گردد؟</h2>
+      <p class="text-ink2">سه مرحله ساده، با عدد و تاریخ مشخص.</p>
+    </div>
+    <div class="grid gap-4 md:grid-cols-3">
+      <article class="step"><div class="no">۰۱</div><h3 class="mb-2 text-base">خرید عمده نوار تیپ</h3><p class="text-sm leading-7 text-mute">سرمایه جذب‌شده صرف خرید نقدی از تولیدکننده می‌شود تا قیمت تمام‌شده پایین‌تر بماند.</p></article>
+      <article class="step"><div class="no">۰۲</div><h3 class="mb-2 text-base">فروش ترکیبی</h3><p class="text-sm leading-7 text-mute">حدود ۵۰ درصد نقدی و ۵۰ درصد اقساطی با چک مدت‌دار به شبکه توزیع فروخته می‌شود.</p></article>
+      <article class="step"><div class="no">۰۳</div><h3 class="mb-2 text-base">تسویه با سرمایه‌گذار</h3><p class="text-sm leading-7 text-mute">سود دوره و اصل سرمایه در تاریخ سررسیدی که از روز اول در پنل درج شده واریز می‌شود.</p></article>
+    </div>
+    <div class="mt-8 grid gap-5 md:grid-cols-2">
+      <div class="feature"><span class="ic">◷</span><div><h3 class="text-base">تاریخ‌ها از روز اول مشخص است</h3><p class="text-sm text-mute">با فعال شدن مشارکت، تقویم سررسید ساخته می‌شود.</p></div></div>
+      <div class="feature"><span class="ic">▦</span><div><h3 class="text-base">پشتوانه، پرونده واقعی است</h3><p class="text-sm text-mute">معاملات اقساطی با مبلغ و وضعیت چک قابل مشاهده‌اند.</p></div></div>
+      <div class="feature"><span class="ic">▣</span><div><h3 class="text-base">گزارش دوره‌ای مستند</h3><p class="text-sm text-mute">گزارش عملکرد و مدارک هر طرح در پنل بارگذاری می‌شود.</p></div></div>
+      <div class="feature"><span class="ic">✆</span><div><h3 class="text-base">اطلاع‌رسانی داخل پنل</h3><p class="text-sm text-mute">تأیید، واریز و سررسید در اعلان‌های حساب شما ثبت می‌شود.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="border-y border-line bg-cream2 py-16" id="plans">
+  <div class="wrap">
+    <div class="mb-8">
+      <span class="eyebrow">فرصت‌های منتخب</span>
+      <h2 class="text-3xl">طرح‌های آماده بررسی</h2>
+    </div>
+    {% if not show_plans %}
+      <div class="card card-p text-center"><h3>طرح‌ها فقط برای اعضا نمایش داده می‌شود</h3><a class="btn mt-4" href="{% url 'login' %}">ورود</a></div>
+    {% elif not plans %}
+      <div class="card card-p text-center"><h3>هنوز طرحی منتشر نشده است</h3></div>
+    {% else %}
+      <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        {% for plan in plans %}{% include 'partials/plan_card.html' %}{% endfor %}
+      </div>
+      <div class="mt-8 text-center"><a class="btn btn-ghost" href="{% url 'plans' %}">مشاهده همه طرح‌ها</a></div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="py-16">
+  <div class="wrap grid items-center gap-10 lg:grid-cols-2">
+    <div>
+      <span class="eyebrow">شفافیت</span>
+      <h2 class="text-3xl">آنچه در پنل شما دیده می‌شود</h2>
+      <p class="lead mb-4">هر عددی که می‌بینید از قرارداد و تراکنش ثبت‌شده می‌آید.</p>
+      <div class="space-y-4">
+        <div class="feature"><span class="ic">۱</span><div><h3 class="text-base">داشبورد</h3><p class="text-sm text-mute">سرمایه فعال، سود قطعی و تاریخ واریز بعدی.</p></div></div>
+        <div class="feature"><span class="ic">۲</span><div><h3 class="text-base">سود ماه به ماه</h3><p class="text-sm text-mute">سود هر ماه جداگانه در صفحه قرارداد دیده می‌شود.</p></div></div>
+        <div class="feature"><span class="ic">۳</span><div><h3 class="text-base">تأیید دریافت</h3><p class="text-sm text-mute">پس از واریز، خودتان دریافت وجه را تأیید می‌کنید.</p></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><h3 class="text-base">نمونه سود ماه به ماه</h3><span class="badge badge-accent">پیش‌نمایش</span></div>
+      <div class="card-bd">
+        <p class="mb-3 text-sm text-mute">سرمایه ۱ میلیارد {{ site.currency_label }}، دوره {{ months|fanum }} ماهه، نرخ {{ rate|fanum }} درصد.</p>
+        <div class="overflow-x-auto">
+          <table class="tbl">
+            <thead><tr><th>ماه</th><th>قطعی شدن</th><th>سود ماه</th><th>جمع</th></tr></thead>
+            <tbody>
+              {% for row in demo_rows %}
+              <tr>
+                <td>ماه {{ row.k|fanum }}</td>
+                <td class="text-mute">{{ row.date|jdate }}</td>
+                <td>{{ row.amount|toman }}</td>
+                <td class="text-mute">{{ row.cumulative|toman }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <p class="mt-3 text-sm">واریز یکجا در {{ demo_end|jdate }}: <b>{{ demo.total_return|toman }}</b> {{ site.currency_label }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if faqs %}
+<section class="border-y border-line bg-cream2 py-16">
+  <div class="wrap wrap-sm">
+    <span class="eyebrow">پرسش‌های متداول</span>
+    <h2 class="mb-6 text-3xl">آنچه بیشتر پرسیده می‌شود</h2>
+    {% for f in faqs %}
+    <details class="faq card mb-2.5" {% if forloop.first %}open{% endif %}>
+      <summary>{{ f.question }}</summary>
+      <div class="px-5 pb-4 text-sm leading-7 text-ink2">{{ f.answer }}</div>
+    </details>
+    {% endfor %}
+    <div class="mt-6 text-center"><a class="btn btn-ghost" href="{% url 'faq' %}">همه پرسش‌ها</a></div>
+  </div>
+</section>
+{% endif %}
+
+<section class="py-16" id="request">
+  <div class="wrap grid items-start gap-10 lg:grid-cols-2">
+    <div>
+      <span class="eyebrow">شروع گفت‌وگو</span>
+      <h2 class="text-3xl">آماده بررسی یک فرصت هستید؟</h2>
+      <p class="lead">درخواست مستقیم در سامانه ذخیره می‌شود و کد پیگیری می‌گیرید.</p>
+      <ul class="mt-4 space-y-2 text-sm text-ink2">
+        <li>ثبت درخواست تعهد مالی ایجاد نمی‌کند.</li>
+        <li>کد پیگیری اختصاصی دریافت می‌کنید.</li>
+        <li>بررسی توسط کارشناس انجام می‌شود.</li>
+      </ul>
+      {% if site.legal_disclaimer %}<div class="alert alert-info mt-4">{{ site.legal_disclaimer }}</div>{% endif %}
+    </div>
+    <div class="card card-p">
+      {% if lead_code %}
+        <h3 class="mb-2">درخواست شما ثبت شد</h3>
+        <p>کد پیگیری: <b dir="ltr">{{ lead_code }}</b></p>
+        <a class="btn mt-4" href="{% url 'register' %}">ساخت حساب سرمایه‌گذار</a>
+      {% else %}
+        <h3 class="mb-4">فرم درخواست مشاوره</h3>
+        <form method="post">
+          {% csrf_token %}
+          <input type="hidden" name="form" value="lead">
+          <div class="absolute h-px w-px overflow-hidden"><label>وب‌سایت</label><input name="website" tabindex="-1" autocomplete="off"></div>
+          <div class="grid gap-3 sm:grid-cols-2">
+            <div class="field"><label>نام و نام خانوادگی</label>{{ form.full_name }}{{ form.full_name.errors }}</div>
+            <div class="field"><label>شماره همراه</label>{{ form.mobile }}{{ form.mobile.errors }}</div>
+            <div class="field"><label>شهر</label>{{ form.city }}{{ form.city.errors }}</div>
+            <div class="field"><label>سرمایه تقریبی</label><input name="amount" data-money inputmode="numeric"></div>
+          </div>
+          {% if plans and show_details %}
+          <div class="field"><label>طرح مورد نظر</label>
+            <select name="plan_id"><option value="">هنوز تصمیم نگرفته‌ام</option>{% for p in plans %}<option value="{{ p.id }}">{{ p.title }}</option>{% endfor %}</select>
+          </div>
+          {% endif %}
+          <div class="field"><label>زمان مناسب تماس</label>
+            <select name="call_time">
+              <option value="">فرقی نمی‌کند</option>
+              <option>صبح؛ ۹ تا ۱۲</option>
+              <option>بعدازظهر؛ ۱۴ تا ۱۷</option>
+              <option>عصر؛ ۱۷ تا ۲۰</option>
+            </select>
+          </div>
+          <div class="field"><label>توضیح</label>{{ form.message }}</div>
+          <button class="btn btn-lg btn-block" type="submit">ثبت درخواست و دریافت کد پیگیری</button>
+        </form>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

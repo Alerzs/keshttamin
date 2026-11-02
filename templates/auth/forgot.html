@@ -1,0 +1,15 @@
+{% extends 'base_auth.html' %}
+{% block title %}بازیابی رمز | {{ site.site_name }}{% endblock %}
+{% block content %}
+<h1 class="text-2xl">بازیابی رمز عبور</h1>
+<p class="mb-5 text-sm text-mute">شماره همراه حساب را وارد کنید.</p>
+<form method="post">
+  {% csrf_token %}
+  <div class="field"><label>شماره همراه</label>{{ form.mobile }}{{ form.mobile.errors }}</div>
+  <button class="btn btn-block" type="submit">ادامه</button>
+</form>
+{% if reset_url %}
+  <div class="alert alert-info mt-4">در این نسخه محلی، لینک بازیابی همین‌جا نشان داده می‌شود:<br><a class="link break-all" href="{{ reset_url }}">تعیین رمز جدید</a></div>
+{% endif %}
+<p class="mt-4 text-sm"><a class="link" href="{% url 'login' %}">بازگشت به ورود</a></p>
+{% endblock %}

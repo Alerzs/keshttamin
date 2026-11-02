@@ -1,0 +1,36 @@
+{% extends 'base_public.html' %}
+{% load kt %}
+{% block title %}نحوه کار | {{ site.site_name }}{% endblock %}
+{% block content %}
+<section class="border-b border-line bg-cream2 py-12">
+  <div class="wrap">
+    <span class="eyebrow">راهنمای کامل</span>
+    <h1 class="text-3xl">از ثبت‌نام تا واریز سود</h1>
+    <p class="lead">مدل کسب‌وکار، محاسبه سود و کاری که در هر مرحله انجام می‌دهید.</p>
+  </div>
+</section>
+<section class="py-12">
+  <div class="wrap grid gap-8 lg:grid-cols-[1.3fr_.7fr]">
+    <div class="space-y-4">
+      <article class="card card-p"><h3 class="text-base">۱ — ساخت حساب</h3><p class="text-sm text-ink2">با شماره موبایل ثبت‌نام می‌کنید. رایگان و بدون تعهد.</p></article>
+      <article class="card card-p"><h3 class="text-base">۲ — تکمیل شبا</h3><p class="text-sm text-ink2">سود و اصل سرمایه فقط به شبای به نام خودتان واریز می‌شود.</p></article>
+      <article class="card card-p"><h3 class="text-base">۳ — انتخاب طرح</h3><p class="text-sm text-ink2">مبلغ را وارد می‌کنید و پیش از تأیید، سود کل و سررسید را می‌بینید. وضعیت: در انتظار بررسی.</p></article>
+      <article class="card card-p"><h3 class="text-base">۴ — تأیید و واریز</h3><p class="text-sm text-ink2">پس از تأیید کارشناس، مهلت واریز اعلام می‌شود و مبلغ را به حساب مقصد می‌ریزید.</p></article>
+      <article class="card card-p"><h3 class="text-base">۵ — فعال شدن قرارداد</h3><p class="text-sm text-ink2">با تطبیق واریز، تقویم سود ساخته می‌شود و هر ماه سود همان ماه قطعی می‌گردد.</p></article>
+      <article class="card card-p"><h3 class="text-base">۶ — واریز و تأیید دریافت</h3><p class="text-sm text-ink2">در سررسید مبلغ به شبا می‌آید. پس از دیدن آن در حساب، دریافت را در پنل تأیید می‌کنید.</p></article>
+    </div>
+    <aside class="card card-p lg:sticky lg:top-24">
+      <h3 class="mb-2 text-base">نمونه محاسبه</h3>
+      <p class="text-sm text-mute">۱ میلیارد {{ site.currency_label }}، {{ rate|fanum }}٪ ماهانه، {{ months|fanum }} ماه.</p>
+      <div class="mt-4 space-y-2 text-sm">
+        <div class="flex justify-between"><span>سود هر ماه</span><b>{{ demo.monthly_profit|toman }}</b></div>
+        <div class="flex justify-between"><span>سود دوره</span><b>{{ demo.total_profit|toman }}</b></div>
+        <div class="flex justify-between"><span>بازگشت کل</span><b>{{ demo.total_return|toman }}</b></div>
+        <div class="flex justify-between"><span>سررسید نمونه</span><b>{{ maturity|jdate }}</b></div>
+      </div>
+      <p class="mt-4 text-xs leading-6 text-mute">سود ساده است و روی سود قبلی سود نمی‌گیرد. سود ماهانه یک بار گرد می‌شود.</p>
+      <a class="btn btn-block mt-4" href="{% url 'plans' %}">دیدن طرح‌ها</a>
+    </aside>
+  </div>
+</section>
+{% endblock %}

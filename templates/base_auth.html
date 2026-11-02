@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}ورود | {{ site.site_name }}{% endblock %}</title>
+  <link rel="icon" href="{% static 'img/favicon.svg' %}">
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+</head>
+<body>
+  <div class="auth">
+    <aside class="auth-side">
+      <a href="{% url 'home' %}" class="flex items-center gap-2.5">
+        <span class="grid h-10 w-10 place-items-center rounded-xl bg-gold font-extrabold text-white">{{ site.site_name|slice:":1" }}</span>
+        <span><b class="block">{{ site.site_name }}</b><span class="text-xs text-[#8f9b91]">{{ site.site_name_en }}</span></span>
+      </a>
+      <div>
+        <h2 class="mb-4 text-3xl text-cream">پنل سرمایه‌گذار،<br>دفتر حساب شماست</h2>
+        <ul class="space-y-3 text-sm text-[#d6ddd6]">
+          <li>سرمایه فعال، سود تعلق‌گرفته و نزدیک‌ترین سررسید</li>
+          <li>تقویم پرداخت با تاریخ هر ردیف</li>
+          <li>گزارش دوره‌ای و اسناد هر طرح</li>
+          <li>اعلان هر تغییر وضعیت داخل حساب</li>
+        </ul>
+      </div>
+      <p class="text-xs text-white/60">رمز عبور به صورت بازگشت‌ناپذیر ذخیره می‌شود.</p>
+    </aside>
+    <main class="grid place-items-center p-6">
+      <div class="auth-box">
+        {% include 'partials/messages.html' %}
+        {% block content %}{% endblock %}
+      </div>
+    </main>
+  </div>
+</body>
+</html>

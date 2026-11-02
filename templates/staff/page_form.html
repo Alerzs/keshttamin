@@ -1,0 +1,5 @@
+{% extends 'base_panel.html' %}
+{% block heading %}{{ page.title }}{% endblock %}
+{% block content %}
+<form class="card card-p" method="post">{% csrf_token %}{% include 'partials/form_fields.html' %}<button class="btn" type="submit">ذخیره صفحه</button></form>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base_panel.html' %}
+{% load kt %}
+{% block heading %}طرح‌ها{% endblock %}
+{% block content %}
+<div class="mb-4"><a class="btn" href="{% url 'staff_plan_new' %}">طرح جدید</a></div>
+<div class="card overflow-x-auto">
+  <table class="tbl">
+    <thead><tr><th>کد</th><th>عنوان</th><th>وضعیت</th><th>نرخ</th><th>جذب</th><th></th></tr></thead>
+    <tbody>
+      {% for plan in plans %}
+      <tr>
+        <td>{{ plan.code }}</td>
+        <td>{{ plan.title }}</td>
+        <td><span class="badge badge-{{ plan.status|tone }}">{{ plan.get_status_display }}</span></td>
+        <td>{{ plan.rate_percent|percent }}</td>
+        <td>{{ plan.funding_percent|percent }}</td>
+        <td><a class="link" href="{% url 'staff_plan_edit' plan.pk %}">ویرایش</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

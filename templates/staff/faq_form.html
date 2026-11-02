@@ -1,0 +1,5 @@
+{% extends 'base_panel.html' %}
+{% block heading %}پرسش متداول{% endblock %}
+{% block content %}
+<form class="card card-p max-w-2xl" method="post">{% csrf_token %}{% include 'partials/form_fields.html' %}<button class="btn" type="submit">ذخیره</button></form>
+{% endblock %}

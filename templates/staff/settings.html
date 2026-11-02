@@ -1,0 +1,9 @@
+{% extends 'base_panel.html' %}
+{% block heading %}تنظیمات{% endblock %}
+{% block content %}
+<form class="card card-p max-w-3xl" method="post">
+  {% csrf_token %}
+  {% include 'partials/form_fields.html' %}
+  <button class="btn" type="submit">ذخیره تنظیمات</button>
+</form>
+{% endblock %}

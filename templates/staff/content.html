@@ -1,0 +1,19 @@
+{% extends 'base_panel.html' %}
+{% block heading %}محتوای سایت{% endblock %}
+{% block content %}
+<div class="mb-4 flex gap-2">
+  <a class="btn btn-sm {% if tab != 'faq' %}btn-ghost{% endif %}" href="?t=faq">پرسش‌ها</a>
+  <a class="btn btn-sm {% if tab != 'pages' %}btn-ghost{% endif %}" href="?t=pages">صفحات</a>
+  <a class="btn btn-sm {% if tab != 'docs' %}btn-ghost{% endif %}" href="?t=docs">اسناد</a>
+  <a class="btn btn-sm btn-ghost" href="{% url 'staff_faq_new' %}">پرسش جدید</a>
+</div>
+{% if tab == 'pages' %}
+<div class="card overflow-x-auto"><table class="tbl"><tbody>
+  {% for page in pages %}<tr><td>{{ page.title }}</td><td><a class="link" href="{% url 'staff_page_edit' page.pk %}">ویرایش</a></td></tr>{% endfor %}
+</tbody></table></div>
+{% elif tab == 'docs' %}
+<div class="space-y-2">{% for doc in docs %}<article class="card card-p"><b>{{ doc.title }}</b><p class="text-sm text-mute">{{ doc.body|truncatechars:180 }}</p></article>{% empty %}<p>سندی نیست.</p>{% endfor %}</div>
+{% else %}
+<div class="space-y-2">{% for faq in faqs %}<article class="card card-p flex items-center justify-between gap-3"><div><b>{{ faq.question }}</b></div><a class="link text-sm" href="{% url 'staff_faq_edit' faq.pk %}">ویرایش</a></article>{% endfor %}</div>
+{% endif %}
+{% endblock %}

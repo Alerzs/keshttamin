@@ -1,0 +1,40 @@
+{% extends 'base_panel.html' %}
+{% load kt %}
+{% block heading %}{{ investment.contract_no }}{% endblock %}
+{% block content %}
+<div class="grid gap-4 lg:grid-cols-[1.2fr_.8fr]">
+  <div class="card card-p text-sm leading-7">
+    <span class="badge badge-{{ investment.status|tone }}">{{ investment.get_status_display }}</span>
+    <h2 class="mt-2 text-xl">{{ investment.plan.title }}</h2>
+    <p>{{ investment.user.full_name }} · <span dir="ltr">{{ investment.user.mobile }}</span></p>
+    <p>مبلغ {{ investment.amount|toman }} · سود ماه {{ investment.monthly_profit|toman }} · سود دوره {{ investment.total_profit|toman }}</p>
+    <p>شروع {{ investment.start_date|jdate }} · سررسید {{ investment.maturity_date|jdate }}</p>
+    {% if investment.investor_note %}<p class="text-mute">یادداشت: {{ investment.investor_note }}</p>{% endif %}
+    {% if investment.user.iban %}<p dir="ltr">{{ investment.user.iban }}</p>{% else %}<p class="text-warn">شبا ثبت نشده است.</p>{% endif %}
+  </div>
+  <div class="card card-p space-y-3">
+    {% if investment.status == 'pending' %}
+    <form method="post">{% csrf_token %}<input type="hidden" name="action" value="approve"><button class="btn btn-block" type="submit">تأیید و اعلام مهلت واریز</button></form>
+    {% endif %}
+    {% if investment.status == 'approved' %}
+    <form method="post">{% csrf_token %}<input type="hidden" name="action" value="activate"><button class="btn btn-block" type="submit">فعال‌سازی و ساخت تقویم سود</button></form>
+    {% endif %}
+    {% if investment.status == 'pending' or investment.status == 'approved' %}
+    <form method="post">{% csrf_token %}<input type="hidden" name="action" value="reject"><div class="field"><label>دلیل رد</label>{{ form.reason }}</div><button class="btn btn-danger btn-block" type="submit">رد درخواست</button></form>
+    {% endif %}
+  </div>
+</div>
+<div class="card mt-4 overflow-x-auto">
+  <table class="tbl">
+    <thead><tr><th>سررسید</th><th>نوع</th><th>مبلغ</th><th>وضعیت</th><th>تأیید سرمایه‌گذار</th></tr></thead>
+    <tbody>
+      {% for row in payouts %}
+      <tr>
+        <td>{{ row.due_date|jdate }}</td><td>{{ row.get_kind_display }}</td><td>{{ row.amount|toman }}</td>
+        <td>{{ row.get_status_display }}</td><td>{{ row.get_confirm_status_display }}</td>
+      </tr>
+      {% empty %}<tr><td colspan="5">تقویمی ساخته نشده است.</td></tr>{% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

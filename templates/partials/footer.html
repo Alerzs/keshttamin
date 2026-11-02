@@ -1,0 +1,46 @@
+{% load kt %}
+<footer class="foot">
+  <div class="wrap">
+    <div class="grid gap-8 md:grid-cols-4">
+      <div>
+        <div class="mb-3 flex items-center gap-2.5">
+          <span class="grid h-10 w-10 place-items-center rounded-xl bg-gold font-extrabold text-white">{{ site.site_name|slice:":1" }}</span>
+          <span>
+            <b class="block text-cream">{{ site.site_name }}</b>
+            <span class="text-[11px]">{{ site.site_name_en }}</span>
+          </span>
+        </div>
+        <p class="text-sm leading-7">{{ site.site_description }}</p>
+      </div>
+      <div>
+        <h5>سامانه</h5>
+        <ul class="space-y-1.5 text-sm">
+          <li><a href="{% url 'plans' %}">فرصت‌های سرمایه‌گذاری</a></li>
+          <li><a href="{% url 'how' %}">نحوه کار</a></li>
+          <li><a href="{% url 'faq' %}">پرسش‌های متداول</a></li>
+          <li><a href="{% url 'login' %}">ورود سرمایه‌گذاران</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>قوانین</h5>
+        <ul class="space-y-1.5 text-sm">
+          <li><a href="{% url 'page' 'terms' %}">شرایط و قوانین</a></li>
+          <li><a href="{% url 'page' 'privacy' %}">حریم خصوصی</a></li>
+          <li><a href="{% url 'about' %}">درباره ما</a></li>
+          <li><a href="{% url 'contact' %}">تماس با ما</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>ارتباط</h5>
+        <ul class="space-y-1.5 text-sm">
+          {% if site.support_phone %}<li dir="ltr" class="text-right"><a href="tel:{{ site.support_phone }}">{{ site.support_phone|fanum }}</a></li>{% endif %}
+          {% if site.support_email %}<li dir="ltr" class="text-right"><a href="mailto:{{ site.support_email }}">{{ site.support_email }}</a></li>{% endif %}
+        </ul>
+      </div>
+    </div>
+    {% if site.legal_disclaimer %}
+    <p class="mt-8 border-t border-white/10 pt-4 text-xs leading-7">{{ site.legal_disclaimer }}</p>
+    {% endif %}
+    <p class="mt-4 text-xs">© {{ site.site_name }} — همه حقوق محفوظ است.</p>
+  </div>
+</footer>

@@ -1,0 +1,51 @@
+from django.urls import path
+
+from portal.views import auth, panel, public, staff
+
+urlpatterns = [
+    path('', public.home, name='home'),
+    path('plans/', public.plans, name='plans'),
+    path('plans/<str:slug>/', public.plan_detail, name='plan'),
+    path('how/', public.how, name='how'),
+    path('about/', public.about, name='about'),
+    path('faq/', public.faq, name='faq'),
+    path('contact/', public.contact, name='contact'),
+    path('page/<slug:slug>/', public.static_page, name='page'),
+
+    path('login/', auth.login_view, name='login'),
+    path('register/', auth.register_view, name='register'),
+    path('forgot/', auth.forgot_view, name='forgot'),
+    path('reset/<str:token>/', auth.reset_view, name='reset'),
+    path('logout/', auth.logout_view, name='logout'),
+
+    path('panel/', panel.dashboard, name='panel'),
+    path('panel/opportunities/', panel.opportunities, name='panel_opportunities'),
+    path('panel/invest/<str:slug>/', panel.invest, name='panel_invest'),
+    path('panel/investments/', panel.investments, name='panel_investments'),
+    path('panel/investments/<int:pk>/', panel.investment_detail, name='panel_investment'),
+    path('panel/calendar/', panel.calendar, name='panel_calendar'),
+    path('panel/calendar/<int:pk>/confirm/', panel.confirm, name='panel_confirm'),
+    path('panel/documents/', panel.documents, name='panel_documents'),
+    path('panel/tickets/', panel.tickets, name='panel_tickets'),
+    path('panel/tickets/<int:pk>/', panel.ticket_detail, name='panel_ticket'),
+    path('panel/notifications/', panel.notifications, name='panel_notifications'),
+    path('panel/profile/', panel.profile, name='panel_profile'),
+
+    path('manage/', staff.dashboard, name='staff'),
+    path('manage/plans/', staff.plans, name='staff_plans'),
+    path('manage/plans/new/', staff.plan_edit, name='staff_plan_new'),
+    path('manage/plans/<int:pk>/', staff.plan_edit, name='staff_plan_edit'),
+    path('manage/investments/', staff.investments, name='staff_investments'),
+    path('manage/investments/<int:pk>/', staff.investment_detail, name='staff_investment'),
+    path('manage/payouts/', staff.payouts, name='staff_payouts'),
+    path('manage/payouts/<int:pk>/paid/', staff.payout_paid, name='staff_payout_paid'),
+    path('manage/investors/', staff.investors, name='staff_investors'),
+    path('manage/leads/', staff.leads, name='staff_leads'),
+    path('manage/tickets/', staff.tickets, name='staff_tickets'),
+    path('manage/tickets/<int:pk>/', staff.ticket_detail, name='staff_ticket'),
+    path('manage/content/', staff.content, name='staff_content'),
+    path('manage/faq/new/', staff.faq_edit, name='staff_faq_new'),
+    path('manage/faq/<int:pk>/', staff.faq_edit, name='staff_faq_edit'),
+    path('manage/pages/<int:pk>/', staff.page_edit, name='staff_page_edit'),
+    path('manage/settings/', staff.settings_view, name='staff_settings'),
+]

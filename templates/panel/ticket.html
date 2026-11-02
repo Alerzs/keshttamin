@@ -1,0 +1,21 @@
+{% extends 'base_panel.html' %}
+{% load kt %}
+{% block heading %}{{ ticket.subject }}{% endblock %}
+{% block content %}
+<p class="mb-3"><span class="badge badge-{{ ticket.status|tone }}">{{ ticket.get_status_display }}</span></p>
+<div class="space-y-3">
+  {% for msg in ticket.messages.all %}
+  <article class="card card-p {% if msg.author_id == user.id %}border-pine/20{% endif %}">
+    <p class="text-xs text-mute">{{ msg.author.full_name }} · {{ msg.created_at|jdate }}</p>
+    <p class="mt-1 text-sm leading-7">{{ msg.body|linebreaksbr }}</p>
+  </article>
+  {% endfor %}
+</div>
+{% if ticket.status != 'closed' %}
+<form class="card card-p mt-4" method="post">
+  {% csrf_token %}
+  <div class="field"><label>پاسخ</label>{{ form.body }}</div>
+  <button class="btn" type="submit">ارسال</button>
+</form>
+{% endif %}
+{% endblock %}

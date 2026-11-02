@@ -1,0 +1,19 @@
+{% extends 'base_panel.html' %}
+{% load kt %}
+{% block heading %}{{ ticket.subject }}{% endblock %}
+{% block content %}
+<p class="mb-3 text-sm text-mute">{{ ticket.user.full_name }} · {{ ticket.user.mobile }}</p>
+<div class="space-y-3">
+  {% for msg in ticket.messages.all %}
+  <article class="card card-p">
+    <p class="text-xs text-mute">{{ msg.author.full_name }} · {{ msg.created_at|jdate }}</p>
+    <p class="mt-1 text-sm">{{ msg.body|linebreaksbr }}</p>
+  </article>
+  {% endfor %}
+</div>
+<form class="card card-p mt-4" method="post">
+  {% csrf_token %}
+  <div class="field"><label>پاسخ کارشناس</label>{{ form.body }}</div>
+  <button class="btn" type="submit">ارسال پاسخ</button>
+</form>
+{% endblock %}

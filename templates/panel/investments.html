@@ -1,0 +1,29 @@
+{% extends 'base_panel.html' %}
+{% load kt %}
+{% block heading %}قراردادهای من{% endblock %}
+{% block content %}
+<div class="mb-4 flex flex-wrap gap-2">
+  <a class="btn btn-sm {% if status %}btn-ghost{% endif %}" href="{% url 'panel_investments' %}">همه</a>
+  <a class="btn btn-sm {% if status != 'pending' %}btn-ghost{% endif %}" href="?status=pending">در انتظار</a>
+  <a class="btn btn-sm {% if status != 'approved' %}btn-ghost{% endif %}" href="?status=approved">تأیید شده</a>
+  <a class="btn btn-sm {% if status != 'active' %}btn-ghost{% endif %}" href="?status=active">در حال اجرا</a>
+  <a class="btn btn-sm {% if status != 'settled' %}btn-ghost{% endif %}" href="?status=settled">تسویه شده</a>
+</div>
+<div class="card overflow-x-auto">
+  <table class="tbl">
+    <thead><tr><th>قرارداد</th><th>طرح</th><th>مبلغ</th><th>سود دوره</th><th>وضعیت</th><th></th></tr></thead>
+    <tbody>
+      {% for inv in investments %}
+      <tr>
+        <td>{{ inv.contract_no }}</td>
+        <td>{{ inv.plan.title }}</td>
+        <td>{{ inv.amount|toman }}</td>
+        <td>{{ inv.total_profit|toman }}</td>
+        <td><span class="badge badge-{{ inv.status|tone }}">{{ inv.get_status_display }}</span></td>
+        <td><a class="link" href="{% url 'panel_investment' inv.pk %}">جزئیات</a></td>
+      </tr>
+      {% empty %}<tr><td colspan="6">قراردادی نیست.</td></tr>{% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

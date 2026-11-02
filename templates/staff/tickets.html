@@ -1,0 +1,20 @@
+{% extends 'base_panel.html' %}
+{% load kt %}
+{% block heading %}تیکت‌ها{% endblock %}
+{% block content %}
+<div class="card overflow-x-auto">
+  <table class="tbl">
+    <thead><tr><th>موضوع</th><th>سرمایه‌گذار</th><th>وضعیت</th><th>تاریخ</th></tr></thead>
+    <tbody>
+      {% for t in tickets %}
+      <tr>
+        <td><a class="link" href="{% url 'staff_ticket' t.pk %}">{{ t.subject }}</a></td>
+        <td>{{ t.user.full_name }}</td>
+        <td><span class="badge badge-{{ t.status|tone }}">{{ t.get_status_display }}</span></td>
+        <td>{{ t.updated_at|jdate }}</td>
+      </tr>
+      {% empty %}<tr><td colspan="4">تیکتی نیست.</td></tr>{% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base_panel.html' %}
+{% load kt %}
+{% block heading %}{{ investment.contract_no }}{% endblock %}
+{% block content %}
+<div class="mb-4 flex flex-wrap items-center gap-2">
+  <span class="badge badge-{{ investment.status|tone }}">{{ investment.get_status_display }}</span>
+  <a class="link text-sm" href="{% url 'plan' investment.plan.slug %}">{{ investment.plan.title }}</a>
+</div>
+<div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+  <div class="kpi"><div class="k">مبلغ</div><div class="v text-lg">{{ investment.amount|toman }}</div></div>
+  <div class="kpi"><div class="k">سود هر ماه</div><div class="v text-lg">{{ investment.monthly_profit|toman }}</div></div>
+  <div class="kpi"><div class="k">سود دوره</div><div class="v text-lg">{{ investment.total_profit|toman }}</div></div>
+  <div class="kpi"><div class="k">بازگشت کل</div><div class="v text-lg">{{ investment.total_return|toman }}</div></div>
+</div>
+<div class="mt-4 grid gap-4 lg:grid-cols-2">
+  <div class="card card-p text-sm leading-7">
+    <p>نرخ ماهانه: {{ investment.rate_percent|percent }} · مدت: {{ investment.months|fanum }} ماه · {{ investment.plan.get_payout_mode_display }}</p>
+    <p>تاریخ درخواست: {{ investment.request_date|jdate }}</p>
+    {% if investment.deposit_deadline %}<p>مهلت واریز: {{ investment.deposit_deadline|jdate }}</p>{% endif %}
+    {% if investment.start_date %}<p>شروع دوره: {{ investment.start_date|jdate }}</p>{% endif %}
+    {% if investment.maturity_date %}<p>سررسید: {{ investment.maturity_date|jdate }}</p>{% endif %}
+    {% if investment.reject_reason %}<p class="text-danger">دلیل رد: {{ investment.reject_reason }}</p>{% endif %}
+    {% if investment.investor_note %}<p class="text-mute">یادداشت شما: {{ investment.investor_note }}</p>{% endif %}
+  </div>
+  {% if investment.status == 'approved' and bank_accounts %}
+  <div class="card card-p">
+    <h3 class="mb-2 text-base">واریز به این حساب</h3>
+    {% for acc in bank_accounts %}
+    <p class="text-sm"><b>{{ acc.bank_name }}</b> — {{ acc.owner_name }}</p>
+    <p dir="ltr" class="text-sm">{{ acc.iban }}</p>
+    {% endfor %}
+    <p class="hint">پس از واریز، منتظر فعال‌سازی قرارداد توسط کارشناس بمانید.</p>
+  </div>
+  {% endif %}
+</div>
+<div class="card mt-4 overflow-x-auto">
+  <div class="card-hd"><h2 class="text-base">تقویم این قرارداد</h2></div>
+  <table class="tbl">
+    <thead><tr><th>سررسید</th><th>نوع</th><th>مبلغ</th><th>وضعیت</th><th>تأیید</th></tr></thead>
+    <tbody>
+      {% for row in payouts %}
+      <tr>
+        <td>{{ row.due_date|jdate }}</td>
+        <td>{{ row.get_kind_display }}</td>
+        <td>{{ row.amount|toman }}</td>
+        <td><span class="badge badge-{{ row.status|tone }}">{{ row.get_status_display }}</span></td>
+        <td>{{ row.get_confirm_status_display }}</td>
+      </tr>
+      {% empty %}<tr><td colspan="5">پس از فعال شدن قرارداد، ردیف‌ها ساخته می‌شوند.</td></tr>{% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

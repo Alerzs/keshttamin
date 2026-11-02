@@ -1,0 +1,31 @@
+{% load kt %}
+<header class="nav">
+  <div class="wrap flex h-[68px] items-center gap-4">
+    <a href="{% url 'home' %}" class="flex items-center gap-2.5">
+      <span class="logo-mark">{{ site.site_name|slice:":1" }}</span>
+      <span class="leading-tight">
+        <b class="block text-[15px]">{{ site.site_name }}</b>
+        <span class="block text-[11px] tracking-wide text-mute">{{ site.site_name_en }}</span>
+      </span>
+    </a>
+    <nav id="navLinks" class="nav-links lg:me-auto">
+      <a href="{% url 'home' %}" class="{% active request 'home' %}">صفحه اصلی</a>
+      <a href="{% url 'plans' %}" class="{% active request 'plans' 'plan' %}">فرصت‌های سرمایه‌گذاری</a>
+      <a href="{% url 'how' %}" class="{% active request 'how' %}">نحوه کار</a>
+      <a href="{% url 'about' %}" class="{% active request 'about' %}">درباره ما</a>
+      <a href="{% url 'faq' %}" class="{% active request 'faq' %}">پرسش‌های متداول</a>
+      <a href="{% url 'contact' %}" class="{% active request 'contact' %}">تماس با ما</a>
+    </nav>
+    <div class="flex items-center gap-2">
+      {% if user.is_authenticated %}
+        <a class="btn btn-sm" href="{% if user.is_staff_role %}{% url 'staff' %}{% else %}{% url 'panel' %}{% endif %}">ورود به پنل</a>
+      {% else %}
+        <a class="btn btn-ghost btn-sm hidden sm:inline-flex" href="{% url 'login' %}">ورود</a>
+        <a class="btn btn-sm" href="{% url 'register' %}">ثبت‌نام</a>
+      {% endif %}
+      <button class="grid h-10 w-10 place-items-center rounded-lg border border-line lg:hidden" type="button" data-nav aria-label="منو">
+        <span class="block h-0.5 w-4 bg-ink2"></span>
+      </button>
+    </div>
+  </div>
+</header>

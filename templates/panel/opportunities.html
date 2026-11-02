@@ -1,0 +1,9 @@
+{% extends 'base_panel.html' %}
+{% block heading %}فرصت‌های سرمایه‌گذاری{% endblock %}
+{% block content %}
+<div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+  {% for plan in plans %}{% include 'partials/plan_card.html' %}{% empty %}
+  <div class="card card-p">طرحی منتشر نشده است.</div>
+  {% endfor %}
+</div>
+{% endblock %}

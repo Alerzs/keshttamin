@@ -1,0 +1,76 @@
+{% load static kt %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>{% block title %}پنل | {{ site.site_name }}{% endblock %}</title>
+  <link rel="icon" href="{% static 'img/favicon.svg' %}">
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+</head>
+<body>
+<div class="backdrop"></div>
+<aside class="side">
+  <div class="border-b border-white/10 p-5">
+    <a href="{% url 'home' %}" class="flex items-center gap-2">
+      <span class="grid h-9 w-9 place-items-center rounded-lg bg-gold font-extrabold text-white">{{ site.site_name|slice:":1" }}</span>
+      <span>
+        <b class="block text-sm text-cream">{{ site.site_name }}</b>
+        <span class="text-[11px] text-[#8f9b91]">{% if user.is_staff_role %}ADMIN PANEL{% else %}INVESTOR PANEL{% endif %}</span>
+      </span>
+    </a>
+  </div>
+  <nav class="flex-1 overflow-y-auto px-3 py-3 text-sm">
+    {% if user.is_staff_role %}
+      <p class="px-3 pb-1 pt-3 text-[11px] font-bold text-[#7d8a80]">مدیریت</p>
+      <a class="item {% active request 'staff' %}" href="{% url 'staff' %}">داشبورد</a>
+      <a class="item {% active request 'staff_plans' 'staff_plan_new' 'staff_plan_edit' %}" href="{% url 'staff_plans' %}">طرح‌ها</a>
+      <a class="item {% active request 'staff_investments' 'staff_investment' %}" href="{% url 'staff_investments' %}">سرمایه‌گذاری‌ها {% if staff_pending %}<span class="ms-auto rounded-full bg-gold px-1.5 text-[11px] text-white">{{ staff_pending|fanum }}</span>{% endif %}</a>
+      <a class="item {% active request 'staff_payouts' %}" href="{% url 'staff_payouts' %}">تقویم و پرداخت</a>
+      <a class="item {% active request 'staff_investors' %}" href="{% url 'staff_investors' %}">سرمایه‌گذاران</a>
+      <p class="px-3 pb-1 pt-3 text-[11px] font-bold text-[#7d8a80]">ارتباط</p>
+      <a class="item {% active request 'staff_tickets' 'staff_ticket' %}" href="{% url 'staff_tickets' %}">تیکت‌ها {% if staff_tickets %}<span class="ms-auto rounded-full bg-gold px-1.5 text-[11px] text-white">{{ staff_tickets|fanum }}</span>{% endif %}</a>
+      <a class="item {% active request 'staff_leads' %}" href="{% url 'staff_leads' %}">درخواست‌های تماس {% if staff_leads %}<span class="ms-auto rounded-full bg-gold px-1.5 text-[11px] text-white">{{ staff_leads|fanum }}</span>{% endif %}</a>
+      <a class="item {% active request 'staff_content' 'staff_faq_new' 'staff_faq_edit' 'staff_page_edit' %}" href="{% url 'staff_content' %}">محتوای سایت</a>
+      {% if user.is_admin_role %}
+      <a class="item {% active request 'staff_settings' %}" href="{% url 'staff_settings' %}">تنظیمات</a>
+      {% endif %}
+    {% else %}
+      <p class="px-3 pb-1 pt-3 text-[11px] font-bold text-[#7d8a80]">سرمایه‌گذاری من</p>
+      <a class="item {% active request 'panel' %}" href="{% url 'panel' %}">داشبورد من</a>
+      <a class="item {% active request 'panel_opportunities' 'panel_invest' %}" href="{% url 'panel_opportunities' %}">فرصت‌ها</a>
+      <a class="item {% active request 'panel_investments' 'panel_investment' %}" href="{% url 'panel_investments' %}">قراردادهای من {% if investor_todo %}<span class="ms-auto rounded-full bg-gold px-1.5 text-[11px] text-white">{{ investor_todo|fanum }}</span>{% endif %}</a>
+      <a class="item {% active request 'panel_calendar' %}" href="{% url 'panel_calendar' %}">سود و پرداخت‌ها {% if investor_awaiting %}<span class="ms-auto rounded-full bg-gold px-1.5 text-[11px] text-white">{{ investor_awaiting|fanum }}</span>{% endif %}</a>
+      <a class="item {% active request 'panel_documents' %}" href="{% url 'panel_documents' %}">گزارش‌ها و اسناد</a>
+      <p class="px-3 pb-1 pt-3 text-[11px] font-bold text-[#7d8a80]">حساب</p>
+      <a class="item {% active request 'panel_tickets' 'panel_ticket' %}" href="{% url 'panel_tickets' %}">پشتیبانی</a>
+      <a class="item {% active request 'panel_notifications' %}" href="{% url 'panel_notifications' %}">اعلان‌ها {% if unread_count %}<span class="ms-auto rounded-full bg-gold px-1.5 text-[11px] text-white">{{ unread_count|fanum }}</span>{% endif %}</a>
+      <a class="item {% active request 'panel_profile' %}" href="{% url 'panel_profile' %}">پروفایل</a>
+    {% endif %}
+  </nav>
+  <div class="border-t border-white/10 p-3">
+    <div class="flex items-center gap-2 rounded-lg bg-white/5 p-2">
+      <span class="grid h-8 w-8 place-items-center rounded-full bg-gold text-sm text-white">{{ user.initial }}</span>
+      <span class="min-w-0 flex-1"><b class="block truncate text-xs text-cream">{{ user.full_name }}</b><span class="text-[11px]">{{ user.role_label }}</span></span>
+      <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="text-xs text-[#8f9b91]" type="submit">خروج</button></form>
+    </div>
+  </div>
+</aside>
+<div class="app">
+  <header class="topbar">
+    <button class="grid h-9 w-9 place-items-center rounded-lg border border-line lg:hidden" type="button" data-side aria-label="منو"><span class="block h-0.5 w-4 bg-ink2"></span></button>
+    <div class="min-w-0 flex-1">
+      <h1 class="truncate text-lg">{% block heading %}داشبورد{% endblock %}</h1>
+    </div>
+    {% if user.is_staff_role %}<a class="btn btn-ghost btn-sm" href="{% url 'home' %}">مشاهده سایت</a>{% endif %}
+    <a class="btn btn-ghost btn-sm" href="{% if user.is_staff_role %}{% url 'staff_tickets' %}{% else %}{% url 'panel_notifications' %}{% endif %}">اعلان{% if unread_count %} {{ unread_count|fanum }}{% endif %}</a>
+  </header>
+  <main class="p-4 md:p-6">
+    {% include 'partials/messages.html' %}
+    {% block content %}{% endblock %}
+  </main>
+</div>
+<script src="{% static 'js/app.js' %}" defer></script>
+</body>
+</html>

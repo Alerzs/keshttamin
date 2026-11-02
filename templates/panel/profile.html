@@ -1,0 +1,16 @@
+{% extends 'base_panel.html' %}
+{% block heading %}پروفایل{% endblock %}
+{% block content %}
+<form class="card card-p max-w-3xl" method="post">
+  {% csrf_token %}
+  <div class="grid gap-3 sm:grid-cols-2">
+    {% for field in form %}
+    <div class="field {% if field.name == 'address' %}sm:col-span-2{% endif %}">
+      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+      {{ field }}{{ field.errors }}
+    </div>
+    {% endfor %}
+  </div>
+  <button class="btn" type="submit">ذخیره</button>
+</form>
+{% endblock %}

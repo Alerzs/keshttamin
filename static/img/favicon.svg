@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="نماد سامانه">
+  <rect width="64" height="64" rx="15" fill="#263b2c"/>
+  <!-- نوار تیپ: خط افقی با روزنه‌های قطره‌چکان -->
+  <rect x="9" y="27" width="46" height="10" rx="5" fill="#fffdf7" opacity="0.92"/>
+  <circle cx="20" cy="32" r="2.1" fill="#263b2c"/>
+  <circle cx="32" cy="32" r="2.1" fill="#263b2c"/>
+  <circle cx="44" cy="32" r="2.1" fill="#263b2c"/>
+  <!-- قطره‌ها -->
+  <path d="M20 41c2.6 3.2 3.9 5.3 3.9 6.9a3.9 3.9 0 0 1-7.8 0c0-1.6 1.3-3.7 3.9-6.9z" fill="#b29153"/>
+  <path d="M44 41c2.6 3.2 3.9 5.3 3.9 6.9a3.9 3.9 0 0 1-7.8 0c0-1.6 1.3-3.7 3.9-6.9z" fill="#b29153"/>
+  <!-- جوانه بالای نوار -->
+  <path d="M32 24V14" stroke="#7fae86" stroke-width="3" stroke-linecap="round"/>
+  <path d="M32 18c-1.5-4-5-5.6-8.4-5.2 0 3.6 3.4 6.6 8.4 5.2z" fill="#7fae86"/>
+  <path d="M32 21c1.5-4.6 5.4-6.3 9.2-5.8 0 4.1-3.8 7.5-9.2 5.8z" fill="#9cc4a2"/>
+</svg>

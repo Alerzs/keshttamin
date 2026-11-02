@@ -1,0 +1,33 @@
+{% extends 'base_public.html' %}
+{% block title %}تماس با ما | {{ site.site_name }}{% endblock %}
+{% block content %}
+<section class="py-12">
+  <div class="wrap grid gap-8 lg:grid-cols-2">
+    <div>
+      <span class="eyebrow">ارتباط</span>
+      <h1 class="text-3xl">تماس با ما</h1>
+      <div class="prose-kt mt-4">{% if page %}{{ page.body|safe }}{% endif %}</div>
+      <div class="mt-4 space-y-1 text-sm">
+        {% if site.support_phone %}<p>تلفن: <b dir="ltr">{{ site.support_phone }}</b></p>{% endif %}
+        {% if site.support_email %}<p>ایمیل: <b dir="ltr">{{ site.support_email }}</b></p>{% endif %}
+        {% if site.company_address %}<p>نشانی: {{ site.company_address }}</p>{% endif %}
+      </div>
+    </div>
+    <div class="card card-p">
+      {% if lead_code %}
+        <h3>پیام ثبت شد</h3>
+        <p class="mt-2">کد پیگیری: <b dir="ltr">{{ lead_code }}</b></p>
+      {% else %}
+      <form method="post">
+        {% csrf_token %}
+        <div class="field"><label>نام</label>{{ form.full_name }}{{ form.full_name.errors }}</div>
+        <div class="field"><label>موبایل</label>{{ form.mobile }}{{ form.mobile.errors }}</div>
+        <div class="field"><label>شهر</label>{{ form.city }}{{ form.city.errors }}</div>
+        <div class="field"><label>پیام</label>{{ form.message }}{{ form.message.errors }}</div>
+        <button class="btn" type="submit">ارسال</button>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

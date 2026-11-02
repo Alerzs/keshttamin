@@ -1,0 +1,28 @@
+{% extends 'base_panel.html' %}
+{% load kt %}
+{% block heading %}پشتیبانی{% endblock %}
+{% block content %}
+<div class="grid items-start gap-4 lg:grid-cols-[1fr_320px]">
+  <div class="card overflow-x-auto">
+    <table class="tbl">
+      <thead><tr><th>موضوع</th><th>وضعیت</th><th>به‌روزرسانی</th></tr></thead>
+      <tbody>
+        {% for t in tickets %}
+        <tr>
+          <td><a class="link" href="{% url 'panel_ticket' t.pk %}">{{ t.subject }}</a></td>
+          <td><span class="badge badge-{{ t.status|tone }}">{{ t.get_status_display }}</span></td>
+          <td>{{ t.updated_at|jdate }}</td>
+        </tr>
+        {% empty %}<tr><td colspan="3">تیکتی ندارید.</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <form class="card card-p" method="post">
+    {% csrf_token %}
+    <h2 class="mb-3 text-base">تیکت جدید</h2>
+    <div class="field"><label>موضوع</label>{{ form.subject }}{{ form.subject.errors }}</div>
+    <div class="field"><label>متن</label>{{ form.body }}{{ form.body.errors }}</div>
+    <button class="btn" type="submit">ثبت</button>
+  </form>
+</div>
+{% endblock %}

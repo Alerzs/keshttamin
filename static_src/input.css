@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face { font-family: Vazirmatn; src: url('../fonts/Vazirmatn-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: Vazirmatn; src: url('../fonts/Vazirmatn-500.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+@font-face { font-family: Vazirmatn; src: url('../fonts/Vazirmatn-600.woff2') format('woff2'); font-weight: 600; font-display: swap; }
+@font-face { font-family: Vazirmatn; src: url('../fonts/Vazirmatn-700.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+@font-face { font-family: Vazirmatn; src: url('../fonts/Vazirmatn-800.woff2') format('woff2'); font-weight: 800; font-display: swap; }
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-cream text-ink font-sans text-[15px] leading-8 antialiased; }
+  button { font: inherit; cursor: pointer; }
+  h1, h2, h3, h4 { @apply font-extrabold leading-snug; }
+  a { @apply text-inherit no-underline; }
+  ::selection { background: #b29153; color: white; }
+  input:not([type=checkbox]):not([type=radio]):not([type=hidden]):not([type=submit]),
+  select, textarea {
+    @apply w-full rounded-xl border border-line bg-white px-3.5 py-2.5 text-sm text-ink outline-none transition;
+  }
+  textarea { @apply min-h-[110px] leading-7; }
+  input:focus, select:focus, textarea:focus { @apply border-gold ring-4 ring-gold/15; }
+  .errorlist { @apply m-0 mt-1 list-none p-0 text-xs text-danger; }
+}
+
+@layer components {
+  .wrap { @apply mx-auto w-full max-w-site px-5; }
+  .wrap-sm { @apply max-w-3xl; }
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-xl bg-pine px-6 py-3 text-sm font-bold text-cream transition hover:bg-pine2; }
+  .btn-gold { @apply bg-gold text-white hover:bg-gold2; }
+  .btn-ghost { @apply border border-line bg-transparent text-pine hover:bg-cream2; }
+  .btn-light { @apply border border-cream bg-cream text-pine hover:bg-white; }
+  .btn-danger { @apply bg-danger text-white hover:bg-[#82301f]; }
+  .btn-sm { @apply rounded-lg px-3.5 py-2 text-[13px]; }
+  .btn-lg { @apply px-8 py-3.5 text-base; }
+  .btn-block { @apply w-full; }
+  .card { @apply rounded-2xl border border-line bg-card shadow-card; }
+  .card-p { @apply p-6; }
+  .card-hd { @apply flex flex-wrap items-center justify-between gap-3 border-b border-line2 px-6 py-4; }
+  .card-bd { @apply px-6 py-5; }
+  .badge { @apply inline-flex items-center gap-1.5 rounded-full border border-transparent px-2.5 py-0.5 text-xs font-bold; }
+  .badge-ok { @apply border-[#c3ded0] bg-oksoft text-ok; }
+  .badge-warn { @apply border-[#e6d9b4] bg-warnsoft text-warn; }
+  .badge-danger { @apply border-[#eec6bc] bg-dangersoft text-danger; }
+  .badge-info { @apply border-[#c2d6de] bg-infosoft text-info; }
+  .badge-accent { @apply border-[#e7dcc4] bg-goldsoft text-gold2; }
+  .badge-muted { @apply border-line bg-cream2 text-mute; }
+  .eyebrow { @apply mb-3 inline-flex items-center gap-2 rounded-full border border-[#e7dcc4] bg-goldsoft px-3 py-1 text-xs font-bold text-gold2; }
+  .eyebrow::before { content: ""; @apply h-1.5 w-1.5 rounded-full bg-gold; }
+  .lead { @apply max-w-[62ch] text-base text-ink2; }
+  .alert { @apply mb-3 flex gap-3 rounded-xl border px-4 py-3 text-sm; }
+  .alert-success { @apply border-[#c3ded0] bg-oksoft text-ok; }
+  .alert-error { @apply border-[#eec6bc] bg-dangersoft text-danger; }
+  .alert-info { @apply border-[#c2d6de] bg-infosoft text-info; }
+  .alert-warning { @apply border-[#e6d9b4] bg-warnsoft text-warn; }
+  .field { @apply mb-4; }
+  .field label, .lbl { @apply mb-1.5 block text-[13px] font-semibold text-ink2; }
+  .hint { @apply mt-1.5 text-xs leading-6 text-mute; }
+  .tbl { @apply w-full border-collapse text-sm; }
+  .tbl th { @apply border-b border-line bg-cream2 px-3 py-2.5 text-start text-xs font-bold text-mute; }
+  .tbl td { @apply border-b border-line2 px-3 py-3 align-middle; }
+  .tbl tr:last-child td { @apply border-b-0; }
+  .kpi { @apply rounded-2xl border border-line bg-card p-4 shadow-card; }
+  .kpi .k { @apply text-xs text-mute; }
+  .kpi .v { @apply mt-1 text-xl font-extrabold text-ink; }
+  .link { @apply font-bold text-gold2 hover:text-gold; }
+  .prose-kt h3 { @apply mb-2 mt-5 text-lg; }
+  .prose-kt p { @apply mb-3 text-ink2; }
+
+  .nav { @apply sticky top-0 z-40 border-b border-line/80 bg-cream/90 backdrop-blur-md; }
+  .logo-mark { @apply grid h-10 w-10 place-items-center rounded-xl bg-pine text-lg font-extrabold text-cream; }
+  .nav-links { @apply absolute inset-x-4 top-[74px] hidden flex-col gap-1 rounded-2xl border border-line bg-card p-3 shadow-lift lg:static lg:flex lg:flex-row lg:items-center lg:gap-1 lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none; }
+  .nav-links.is-open { @apply flex; }
+  .nav-links a { @apply rounded-lg px-3.5 py-2 text-sm font-semibold text-ink2 hover:bg-cream2 hover:text-ink; }
+  .nav-links a.on { @apply bg-pinesoft text-pine; }
+
+  .hero { @apply relative overflow-hidden bg-pine text-cream; }
+  .hero-bg { @apply pointer-events-none absolute inset-0 opacity-30; background: radial-gradient(circle at 15% 20%, #b29153, transparent 36%), radial-gradient(circle at 85% 80%, #2f6d6b, transparent 34%); }
+  .hero h1 { @apply mb-4 text-4xl text-cream md:text-5xl; }
+  .hero h1 em { @apply mt-1 block text-gold not-italic; }
+  .hero .lead { @apply mb-6 text-[#d6ddd6]; }
+  .hero .eyebrow { @apply border-white/20 bg-white/10 text-[#e6d6b4]; }
+  .hero-panel { @apply rounded-xl2 border border-white/15 bg-white/5 p-5 backdrop-blur-sm; }
+  .hero-panel label { @apply text-[#c3ccc4]; }
+  .hero-panel input, .hero-panel select { @apply border-white/20 bg-white/10 text-cream; }
+
+  .step { @apply rounded-2xl border border-line bg-card p-6; }
+  .step .no { @apply mb-3 grid h-10 w-10 place-items-center rounded-xl bg-pinesoft text-sm font-extrabold text-pine; }
+  .feature { @apply flex items-start gap-3; }
+  .feature .ic { @apply grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-goldsoft text-lg text-gold2; }
+
+  .plan-card { @apply flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-card shadow-card transition hover:-translate-y-1 hover:shadow-lift; }
+  .plan-cover { @apply relative h-44 overflow-hidden; }
+  .plan-cover img { @apply h-full w-full object-cover; }
+  .bar { @apply mt-3 flex h-2 overflow-hidden rounded-full bg-cream2; }
+  .bar i { @apply block h-full bg-pine; }
+
+  .faq summary { @apply flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 font-bold; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; @apply text-xl font-normal text-gold; }
+  .faq[open] summary::after { content: "–"; }
+
+  .foot { @apply mt-16 bg-pine pb-8 pt-12 text-[#9aa79d]; }
+  .foot a:hover { @apply text-cream; }
+  .foot h5 { @apply mb-3 text-sm font-bold text-cream; }
+
+  .auth { @apply grid min-h-screen lg:grid-cols-2; }
+  .auth-side { @apply hidden flex-col justify-between bg-pine p-12 text-cream lg:flex; }
+  .auth-box { @apply w-full max-w-md; }
+
+  .app { @apply min-h-screen lg:pr-[264px]; }
+  .side { @apply fixed inset-y-0 right-0 z-40 flex w-[264px] translate-x-full flex-col bg-pine text-[#c9d2ca] transition lg:translate-x-0; }
+  .side.is-open { @apply translate-x-0; }
+  .backdrop { @apply fixed inset-0 z-30 hidden bg-black/40 lg:!hidden; }
+  .backdrop.is-open { @apply block; }
+  .side a.item { @apply flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-[#c9d2ca] hover:bg-white/10 hover:text-cream; }
+  .side a.item.on { @apply bg-gold/20 text-cream; }
+  .topbar { @apply sticky top-0 z-20 flex items-center gap-3 border-b border-line bg-cream/95 px-4 py-3 backdrop-blur md:px-6; }
+}

@@ -1,0 +1,14 @@
+{% extends 'base_auth.html' %}
+{% block title %}ثبت‌نام | {{ site.site_name }}{% endblock %}
+{% block content %}
+<h1 class="text-2xl">ساخت حساب سرمایه‌گذار</h1>
+<p class="mb-5 text-sm text-mute">ثبت‌نام رایگان است و تعهد مالی ایجاد نمی‌کند.</p>
+<form method="post">
+  {% csrf_token %}
+  {% for field in form %}
+  <div class="field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{{ field.errors }}</div>
+  {% endfor %}
+  <button class="btn btn-lg btn-block" type="submit">ساخت حساب</button>
+</form>
+<p class="mt-4 text-center text-sm">حساب دارید؟ <a class="link" href="{% url 'login' %}">ورود</a></p>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base_panel.html' %}
+{% load kt %}
+{% block heading %}داشبورد مدیریت{% endblock %}
+{% block content %}
+<div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+  <div class="kpi"><div class="k">طرح‌های منتشرشده</div><div class="v">{{ plans|fanum }}</div></div>
+  <div class="kpi"><div class="k">سرمایه فعال و تسویه‌شده</div><div class="v text-lg">{{ capital|toman_short }}</div></div>
+  <div class="kpi"><div class="k">درخواست مشارکت باز</div><div class="v">{{ staff_pending|default:0|fanum }}</div></div>
+  <div class="kpi"><div class="k">سرنخ تازه</div><div class="v">{{ staff_leads|default:0|fanum }}</div></div>
+</div>
+<div class="mt-5 grid gap-4 lg:grid-cols-2">
+  <div class="card overflow-x-auto">
+    <div class="card-hd"><h2 class="text-base">درخواست‌های مشارکت</h2><a class="link text-sm" href="{% url 'staff_investments' %}?status=pending">همه</a></div>
+    <table class="tbl">
+      <tbody>
+        {% for inv in pending %}
+        <tr>
+          <td><a class="link" href="{% url 'staff_investment' inv.pk %}">{{ inv.contract_no }}</a><div class="text-xs text-mute">{{ inv.user.full_name }}</div></td>
+          <td>{{ inv.plan.title }}</td>
+          <td>{{ inv.amount|toman_short }}</td>
+        </tr>
+        {% empty %}<tr><td>درخواست بازی نیست.</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-hd"><h2 class="text-base">درخواست مشاوره</h2><a class="link text-sm" href="{% url 'staff_leads' %}">همه</a></div>
+    <ul class="divide-y divide-line2">
+      {% for lead in leads %}
+      <li class="px-5 py-3 text-sm"><b>{{ lead.full_name }}</b> · <span dir="ltr">{{ lead.mobile }}</span><div class="text-xs text-mute">{{ lead.track_code }}</div></li>
+      {% empty %}<li class="px-5 py-4 text-sm text-mute">درخواست جدیدی نیست.</li>{% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}

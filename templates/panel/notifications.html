@@ -1,0 +1,20 @@
+{% extends 'base_panel.html' %}
+{% load kt %}
+{% block heading %}اعلان‌ها{% endblock %}
+{% block content %}
+<form method="post" class="mb-3">{% csrf_token %}<button class="btn btn-ghost btn-sm" type="submit">همه را خواندم</button></form>
+<div class="space-y-2">
+  {% for item in items %}
+  <article class="card card-p {% if not item.read_at %}border-gold{% endif %}">
+    <div class="flex items-start justify-between gap-3">
+      <div>
+        <h2 class="text-base">{{ item.title }}</h2>
+        {% if item.body %}<p class="text-sm text-ink2">{{ item.body }}</p>{% endif %}
+        {% if item.url %}<a class="link text-sm" href="{{ item.url }}">مشاهده</a>{% endif %}
+      </div>
+      <span class="text-xs text-mute">{{ item.created_at|jdate }}</span>
+    </div>
+  </article>
+  {% empty %}<div class="card card-p">اعلانی نیست.</div>{% endfor %}
+</div>
+{% endblock %}

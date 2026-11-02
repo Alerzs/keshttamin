@@ -1,0 +1,2 @@
+Procfile text eol=lf
+liara_pre_start.sh text eol=lf

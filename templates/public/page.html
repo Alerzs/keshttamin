@@ -1,0 +1,12 @@
+{% extends 'base_public.html' %}
+{% block title %}{{ title }} | {{ site.site_name }}{% endblock %}
+{% block content %}
+<section class="py-12">
+  <div class="wrap wrap-sm">
+    <h1 class="mb-6 text-3xl">{{ page.title|default:title }}</h1>
+    <div class="card card-bd prose-kt">
+      {% if page %}{{ page.body|safe }}{% else %}<p>این صفحه هنوز نوشته نشده است.</p>{% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

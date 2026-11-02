@@ -1,0 +1,57 @@
+{% extends 'base_panel.html' %}
+{% load kt %}
+{% block title %}داشبورد من | {{ site.site_name }}{% endblock %}
+{% block heading %}داشبورد من{% endblock %}
+{% block content %}
+{% if missing_iban %}<div class="alert alert-warning">شماره شبا هنوز ثبت نشده. بدون شبا، واریز سود ممکن نیست. <a class="link" href="{% url 'panel_profile' %}">تکمیل پروفایل</a></div>{% endif %}
+{% if awaiting %}
+<div class="alert alert-warning">{{ awaiting|length|fanum }} واریز منتظر تأیید شماست. <a class="link" href="{% url 'panel_calendar' %}?f=awaiting">بررسی</a></div>
+{% endif %}
+<div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+  <div class="kpi"><div class="k">سرمایه فعال</div><div class="v text-lg">{{ active_capital|toman_short }}</div></div>
+  <div class="kpi"><div class="k">سود دوره قراردادها</div><div class="v text-lg">{{ profit|toman_short }}</div></div>
+  <div class="kpi"><div class="k">سود واریزشده</div><div class="v text-lg">{{ paid|toman_short }}</div></div>
+  <div class="kpi"><div class="k">قراردادهای جاری</div><div class="v">{{ contract_count|fanum }}</div></div>
+</div>
+<div class="mt-5 grid gap-4 lg:grid-cols-2">
+  <div class="card">
+    <div class="card-hd"><h2 class="text-base">قراردادها</h2><a class="link text-sm" href="{% url 'panel_investments' %}">همه</a></div>
+    <div class="overflow-x-auto">
+      <table class="tbl">
+        <thead><tr><th>قرارداد</th><th>طرح</th><th>مبلغ</th><th>وضعیت</th></tr></thead>
+        <tbody>
+          {% for inv in investments %}
+          <tr>
+            <td><a class="link" href="{% url 'panel_investment' inv.pk %}">{{ inv.contract_no }}</a></td>
+            <td>{{ inv.plan.title }}</td>
+            <td>{{ inv.amount|toman_short }}</td>
+            <td><span class="badge badge-{{ inv.status|tone }}">{{ inv.get_status_display }}</span></td>
+          </tr>
+          {% empty %}<tr><td colspan="4">هنوز قراردادی ندارید. <a class="link" href="{% url 'panel_opportunities' %}">فرصت‌ها</a></td></tr>{% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-hd"><h2 class="text-base">سررسیدهای پیش رو</h2></div>
+    <div class="overflow-x-auto">
+      <table class="tbl">
+        <thead><tr><th>تاریخ</th><th>نوع</th><th>مبلغ</th><th>طرح</th></tr></thead>
+        <tbody>
+          {% for row in upcoming %}
+          <tr><td>{{ row.due_date|jdate }}</td><td>{{ row.get_kind_display }}</td><td>{{ row.amount|toman }}</td><td>{{ row.plan.title }}</td></tr>
+          {% empty %}<tr><td colspan="4">سررسید بازی نیست.</td></tr>{% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% if docs %}
+<div class="card mt-4">
+  <div class="card-hd"><h2 class="text-base">تازه‌ترین گزارش‌ها</h2></div>
+  <ul class="divide-y divide-line2">
+    {% for doc in docs %}<li class="px-6 py-3 text-sm"><b>{{ doc.title }}</b><span class="text-mute"> — {{ doc.published_at|jdate }}</span></li>{% endfor %}
+  </ul>
+</div>
+{% endif %}
+{% endblock %}

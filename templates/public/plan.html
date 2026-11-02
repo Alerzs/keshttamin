@@ -1,0 +1,73 @@
+{% extends 'base_public.html' %}
+{% load kt %}
+{% block title %}{{ plan.title }} | {{ site.site_name }}{% endblock %}
+{% block content %}
+<section class="border-b border-line bg-cream2 py-10">
+  <div class="wrap">
+    <p class="text-sm text-mute"><a class="link" href="{% url 'plans' %}">فرصت‌ها</a> · {{ plan.code }}</p>
+    <div class="mt-2 flex flex-wrap gap-2">
+      <span class="badge badge-{{ plan.status|tone }}">{{ plan.get_status_display }}</span>
+      <span class="badge badge-{{ plan.risk_level|tone }}">{{ plan.get_risk_level_display }}</span>
+    </div>
+    <h1 class="mt-2 text-3xl">{{ plan.title }}</h1>
+    {% if plan.subtitle %}<p class="lead">{{ plan.subtitle }}</p>{% endif %}
+  </div>
+</section>
+<section class="py-12">
+  <div class="wrap grid items-start gap-8 lg:grid-cols-[1.4fr_.8fr]">
+    <div class="space-y-5">
+      <img class="h-72 w-full rounded-2xl object-cover" src="{{ plan.cover_url }}" alt="{{ plan.title }}">
+      <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
+        <div class="kpi"><div class="k">سود ماهانه</div><div class="v">{{ plan.rate_percent|percent }}</div></div>
+        <div class="kpi"><div class="k">مدت</div><div class="v">{{ plan.duration_months|fanum }} ماه</div></div>
+        <div class="kpi"><div class="k">حداقل ورود</div><div class="v text-base">{{ plan.min_investment|toman_short }}</div></div>
+        <div class="kpi"><div class="k">هدف جذب</div><div class="v text-base">{{ plan.target_amount|toman_short }}</div></div>
+      </div>
+      <div class="card card-p">
+        <div class="bar"><i style="width: {{ plan.funding_percent }}%"></i></div>
+        <p class="mt-2 text-sm text-mute">{{ plan.raised_amount|toman }} از {{ plan.target_amount|toman }} {{ site.currency_label }} · {{ plan.investors_count|fanum }} سرمایه‌گذار{% if plan.region %} · {{ plan.region }}{% endif %}</p>
+      </div>
+      <div class="card card-bd prose-kt">
+        <h3>شرح طرح</h3>
+        <p>{{ plan.description|linebreaksbr }}</p>
+        {% if plan.usage_of_funds %}<h3>مصرف وجوه</h3><p>{{ plan.usage_of_funds|linebreaksbr }}</p>{% endif %}
+        {% if plan.guarantee_note %}<h3>پشتوانه</h3><p>{{ plan.guarantee_note|linebreaksbr }}</p>{% endif %}
+        {% if plan.risk_note %}<h3>ریسک</h3><p>{{ plan.risk_note|linebreaksbr }}</p>{% endif %}
+      </div>
+      <div class="card">
+        <div class="card-hd"><h3 class="text-base">نمونه جدول سود برای حداقل ورود</h3></div>
+        <div class="card-bd overflow-x-auto">
+          <table class="tbl">
+            <thead><tr><th>ماه</th><th>تاریخ</th><th>سود</th><th>جمع قطعی</th></tr></thead>
+            <tbody>
+              {% for row in rows %}
+              <tr><td>{{ row.k|fanum }}</td><td>{{ row.date|jdate }}</td><td>{{ row.amount|toman }}</td><td>{{ row.cumulative|toman }}</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <p class="mt-3 text-sm">بازگشت کل در {{ maturity|jdate }}: <b>{{ calc.total_return|toman }}</b></p>
+        </div>
+      </div>
+    </div>
+    <aside class="card card-p lg:sticky lg:top-24">
+      <h3 class="mb-2 text-lg">مشارکت در این طرح</h3>
+      <p class="mb-4 text-sm text-mute">گام ورود {{ plan.invest_step|toman_short }} {{ site.currency_label }}. حالت واریز: {{ plan.get_payout_mode_display }}.</p>
+      {% if form %}
+        <form method="post">
+          {% csrf_token %}
+          <div class="field"><label>مبلغ ({{ site.currency_label }})</label><input name="amount" data-money inputmode="numeric" value="{{ plan.min_investment|toman }}">{{ form.amount.errors }}</div>
+          <div class="field"><label>توضیح</label><textarea name="note" rows="3"></textarea></div>
+          <button class="btn btn-block" type="submit">ثبت درخواست مشارکت</button>
+        </form>
+      {% elif user.is_authenticated and user.is_staff_role %}
+        <a class="btn btn-block" href="{% url 'staff_plan_edit' plan.pk %}">ویرایش در پنل مدیریت</a>
+      {% elif user.is_authenticated %}
+        <p class="text-sm">این طرح اکنون پذیرنده مشارکت تازه نیست.</p>
+      {% else %}
+        <a class="btn btn-block" href="{% url 'login' %}?next={{ request.path }}">ورود و ثبت مشارکت</a>
+        <a class="btn btn-ghost btn-block mt-2" href="{% url 'register' %}">ساخت حساب</a>
+      {% endif %}
+    </aside>
+  </div>
+</section>
+{% endblock %}

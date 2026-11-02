@@ -1,0 +1,16 @@
+{% extends 'base_panel.html' %}
+{% load kt %}
+{% block heading %}گزارش‌ها و اسناد{% endblock %}
+{% block content %}
+<div class="grid gap-3">
+  {% for doc in docs %}
+  <article class="card card-p">
+    <div class="flex flex-wrap items-center justify-between gap-2">
+      <h2 class="text-base">{{ doc.title }}</h2>
+      <span class="text-xs text-mute">{{ doc.published_at|jdate }}{% if doc.plan %} · {{ doc.plan.title }}{% endif %}</span>
+    </div>
+    <p class="mt-2 text-sm leading-7 text-ink2">{{ doc.body|linebreaksbr }}</p>
+  </article>
+  {% empty %}<div class="card card-p">هنوز سندی منتشر نشده است.</div>{% endfor %}
+</div>
+{% endblock %}

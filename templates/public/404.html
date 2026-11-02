@@ -1,0 +1,14 @@
+{% extends 'base_public.html' %}
+{% block title %}صفحه پیدا نشد | {{ site.site_name }}{% endblock %}
+{% block content %}
+<section class="py-20">
+  <div class="wrap text-center">
+    <div class="card card-p mx-auto max-w-lg">
+      <p class="text-4xl font-extrabold text-gold">۴۰۴</p>
+      <h1 class="mt-2 text-2xl">این صفحه پیدا نشد</h1>
+      <p class="mt-2 text-sm text-mute">ممکن است طرح حذف شده باشد یا نشانی را اشتباه وارد کرده باشید.</p>
+      <a class="btn mt-4" href="{% url 'home' %}">بازگشت به صفحه اصلی</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base_public.html' %}
+{% block title %}پرسش‌های متداول | {{ site.site_name }}{% endblock %}
+{% block content %}
+<section class="py-12">
+  <div class="wrap wrap-sm">
+    <span class="eyebrow">پرسش‌ها</span>
+    <h1 class="mb-6 text-3xl">پرسش‌های متداول</h1>
+    {% for f in faqs %}
+    <details class="faq card mb-2.5" {% if forloop.first %}open{% endif %}>
+      <summary>{{ f.question }}</summary>
+      <div class="px-5 pb-4 text-sm leading-7 text-ink2">{{ f.answer|linebreaksbr }}</div>
+    </details>
+    {% empty %}
+    <div class="card card-p">پرسشی ثبت نشده است.</div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
