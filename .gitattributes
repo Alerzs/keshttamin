@@ -1,5 +1,2 @@
-Procfile text eol=lf
-liara_pre_start.sh text eol=lf
 app.sh text eol=lf
-.s2i/bin/assemble text eol=lf
-.s2i/bin/run text eol=lf
+Procfile text eol=lf
