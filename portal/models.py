@@ -126,6 +126,9 @@ class Plan(models.Model):
     cover_preset = models.PositiveSmallIntegerField(default=1)
     investors_count = models.PositiveIntegerField(default=0)
     sort_order = models.IntegerField(default=0)
+    keshtyar_sale_id = models.PositiveIntegerField(
+        'شناسه اعلام فروش کشت‌یار', null=True, blank=True, unique=True,
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

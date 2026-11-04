@@ -26,6 +26,7 @@ SECRET_KEY = (
     or os.environ.get('DJANGO_SECRET_KEY')
     or ''
 ).strip().strip("'\"")
+KESHTTAMIN_API_KEY = os.environ.get('KESHTTAMIN_API_KEY', '').strip().strip("'\"")
 DEBUG = env_bool('DEBUG', default=False)
 
 if not SECRET_KEY:

@@ -1,6 +1,6 @@
 from django.urls import path
 
-from portal.views import auth, panel, public, staff
+from portal.views import auth, keshtyar, panel, public, staff
 
 urlpatterns = [
     path('', public.home, name='home'),
@@ -48,4 +48,6 @@ urlpatterns = [
     path('manage/faq/<int:pk>/', staff.faq_edit, name='staff_faq_edit'),
     path('manage/pages/<int:pk>/', staff.page_edit, name='staff_page_edit'),
     path('manage/settings/', staff.settings_view, name='staff_settings'),
+
+    path('api/keshtyar/check-sales', keshtyar.check_sale, name='keshtyar_check_sale'),
 ]
