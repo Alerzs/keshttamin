@@ -6,7 +6,7 @@ from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from portal.keshtyar_sales import SalePayloadError, upsert_check_sale
+from portal.keshtyar_sales import SalePayloadError, create_check_sale
 
 logger = logging.getLogger(__name__)
 
@@ -36,12 +36,12 @@ def check_sale(request):
         return _json({'ok': False, 'error': 'بدنه درخواست JSON نیست.'}, 400)
 
     try:
-        plan, _created = upsert_check_sale(payload)
+        plan = create_check_sale(payload)
     except SalePayloadError as exc:
         return _json({'ok': False, 'error': str(exc)[:180]}, 422)
     except Exception:
         logger.exception('keshtyar check sale failed')
         return _json({'ok': False, 'error': 'ذخیره فروش در کشت‌تامین ناموفق بود.'}, 500)
 
-    logger.info('keshtyar check sale %s stored as plan %s', plan.keshtyar_sale_id, plan.pk)
+    logger.info('keshtyar check sale stored as plan %s', plan.pk)
     return _json({'ok': True, 'id': plan.pk})
